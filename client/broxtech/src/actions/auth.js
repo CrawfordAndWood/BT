@@ -24,7 +24,7 @@ export const login = () => async (dispatch) => {
 export const logout = () => async (dispatch) => {
   try {
     console.log("logging out");
-    dispatch({ type: LOGOUT0 });
+    dispatch({ type: LOGOUT });
   } catch (err) {
     console.log(err.message);
   }
