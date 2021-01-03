@@ -2,7 +2,6 @@ import React, { Fragment } from "react";
 import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
 
 const Landing = ({ isAuthenticated }) => {
   if (isAuthenticated) {
@@ -11,11 +10,6 @@ const Landing = ({ isAuthenticated }) => {
   return (
     <Fragment>
       <p>Welcome to Brox Technology. Why not sign in?</p>
-      <Link to="/login">
-        <div className="action-item" data-tip="login" data-type="success">
-          Here
-        </div>
-      </Link>
     </Fragment>
   );
 };

@@ -3,8 +3,39 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
+import {
+  Field,
+  Control,
+  Label,
+  Input,
+  Textarea,
+  Select,
+  Checkbox,
+  Radio,
+  Help,
+  InputFile,
+} from "react-bulma-components/lib/components/form";
+import {
+  Heading,
+  Button,
+  Container,
+  Columns,
+  Section,
+} from "react-bulma-components";
+import "react-bulma-components/dist/react-bulma-components.min.css";
 
 const Login = ({ login, isAuthenticated }) => {
+  const [formData, setFormData] = useState({
+    email: "",
+    name: "",
+    password: "",
+  });
+
+  const { email, name, password } = formData;
+
+  const onChange = (e) =>
+    setFormData({ ...formData, [e.target.name]: e.target.value });
+
   const onSubmit = async (e) => {
     e.preventDefault();
     login();
@@ -17,10 +48,48 @@ const Login = ({ login, isAuthenticated }) => {
 
   return (
     <Fragment>
-      <h2>Sign In</h2>
-      <form className="form" onSubmit={(e) => onSubmit(e)}>
-        <input type="submit" className="btn btn-primary" value="Sign In" />
-      </form>
+      <Section>
+        <Container>
+          <Columns>
+            <Columns.Column size="one-fifth"></Columns.Column>
+            <Columns.Column>
+              {" "}
+              <form className="form" onSubmit={(e) => onSubmit(e)}>
+                <Field>
+                  <Label>Email</Label>
+                  <Control>
+                    <Input
+                      onChange={(e) => onChange(e)}
+                      name="email"
+                      type="email"
+                      placeholder="Email input"
+                      value={email}
+                    />
+                  </Control>
+                </Field>
+                <Field>
+                  <Label>Password</Label>
+                  <Control>
+                    <Input
+                      onChange={(e) => onChange(e)}
+                      name="password"
+                      type="password"
+                      placeholder="Password"
+                      value={password}
+                    />
+                  </Control>
+                </Field>
+                <Button.Group>
+                  <Button rounded color="primary">
+                    Login
+                  </Button>
+                </Button.Group>{" "}
+              </form>
+            </Columns.Column>
+            <Columns.Column size="one-fifth"></Columns.Column>
+          </Columns>
+        </Container>
+      </Section>
     </Fragment>
   );
 };
