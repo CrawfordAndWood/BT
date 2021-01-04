@@ -16,6 +16,7 @@ import "react-bulma-components/dist/react-bulma-components.min.css";
 
 //Component List
 import Alert from "./components/plumbing/layout/Alert";
+import BroxFooter from "./components/plumbing/layout/Footer";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Logout from "./components/auth/Logout";
@@ -42,6 +43,7 @@ const App = () => {
                 <Route component={NotFound} />
               </Switch>
             </div>
+            {/* <BroxFooter /> */}
           </Container>
         </Fragment>
       </Router>

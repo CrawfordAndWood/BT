@@ -3,8 +3,12 @@ import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
 import { Link, withRouter } from "react-router-dom";
 
+//Font Awesome
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faUser } from "@fortawesome/free-solid-svg-icons";
 //Bulma
 import { Heading } from "react-bulma-components";
+import Icon from "react-bulma-components/lib/components/icon";
 import Navbar from "react-bulma-components/lib/components/navbar";
 import "react-bulma-components/dist/react-bulma-components.min.css";
 
@@ -44,23 +48,23 @@ const Navigation = ({ logout, isAuthenticated }) => {
               </Heading>
             </Navbar.Item>
           </Link>
-          <Navbar.Burger />
+          {/* <Navbar.Burger /> */}
         </Navbar.Brand>
         <Navbar.Menu>
-          {/* <Navbar.Container>
-            <Navbar.Item dropdown hoverable href="#">
-              <Navbar.Link>First</Navbar.Link>
-              <Navbar.Dropdown>
-                <Navbar.Item href="#">Subitem 1</Navbar.Item>
-                <Navbar.Item href="#">Subitem 2</Navbar.Item>
-              </Navbar.Dropdown>
-            </Navbar.Item>
-            <Navbar.Item href="#">Second</Navbar.Item>
-          </Navbar.Container> */}
           <Navbar.Container position="end">
             {isAuthenticated ? (
               <Fragment>
-                <Navbar.Item onClick={() => logout()}>Logout</Navbar.Item>
+                <Navbar.Item dropdown hoverable>
+                  <Navbar.Link>
+                    {" "}
+                    <Icon>
+                      <FontAwesomeIcon icon={faUser} />
+                    </Icon>
+                  </Navbar.Link>
+                  <Navbar.Dropdown>
+                    <Navbar.Item onClick={() => logout()}>Logout</Navbar.Item>
+                  </Navbar.Dropdown>
+                </Navbar.Item>
               </Fragment>
             ) : (
               <Fragment>

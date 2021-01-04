@@ -1,11 +1,13 @@
 import React, { Fragment } from "react";
 
-const Footer = (props) => {
+//Bulma
+import Footer from "react-bulma-components/lib/components/footer";
+const BroxFooter = (props) => {
   return (
     <Fragment>
-      <div className="footer">Copyright 2020 Crawford & Wood</div>
+      <Footer>Copyright 2020 Crawford & Wood</Footer>
     </Fragment>
   );
 };
 
-export default Footer;
+export default BroxFooter;
