@@ -15,6 +15,7 @@ import {
 import "react-bulma-components/dist/react-bulma-components.min.css";
 
 //Component List
+import Alert from "./components/plumbing/layout/Alert";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Logout from "./components/auth/Logout";
@@ -31,6 +32,7 @@ const App = () => {
           <Container>
             <div className="App">
               <Navigation />
+              <Alert />
               <Switch>
                 <Route exact path="/" component={Landing} />
                 <Route exact path="/dashboard" component={Dashboard} />

@@ -27,7 +27,6 @@ import "react-bulma-components/dist/react-bulma-components.min.css";
 const Login = ({ login, isAuthenticated }) => {
   const [formData, setFormData] = useState({
     email: "",
-    name: "",
     password: "",
   });
 
@@ -38,7 +37,7 @@ const Login = ({ login, isAuthenticated }) => {
 
   const onSubmit = async (e) => {
     e.preventDefault();
-    login();
+    login(formData);
   };
 
   //Redirect if logged in
@@ -64,6 +63,7 @@ const Login = ({ login, isAuthenticated }) => {
                       type="email"
                       placeholder="Email input"
                       value={email}
+                      required
                     />
                   </Control>
                 </Field>
@@ -76,6 +76,7 @@ const Login = ({ login, isAuthenticated }) => {
                       type="password"
                       placeholder="Password"
                       value={password}
+                      required
                     />
                   </Control>
                 </Field>

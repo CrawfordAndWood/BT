@@ -1,5 +1,5 @@
 import axios from "axios";
-//import { setAlert } from "./alert";
+import { setAlert } from "./alert";
 import {
   REGISTER_SUCCESS,
   REGISTER_FAIL,
@@ -12,10 +12,24 @@ import {
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
-export const login = () => async (dispatch) => {
+const details = {
+  email: "test@test.com",
+  password: "pass",
+};
+
+export const login = (form) => async (dispatch) => {
   try {
-    console.log("logging in");
-    dispatch({ type: LOGIN_SUCCESS });
+    let result =
+      Object.entries(details).toString() === Object.entries(form).toString();
+
+    if (result) {
+      dispatch({ type: LOGIN_SUCCESS });
+    } else {
+      dispatch(
+        setAlert("Sorry, the credentials provided are invalid", "danger")
+      );
+      dispatch({ type: LOGIN_FAIL });
+    }
   } catch (err) {
     console.log(err.message);
   }
