@@ -1,20 +1,21 @@
 import React, { Fragment, useEffect } from "react";
 import { connect } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 
-const Dashboard = () => {
-  useEffect(() => {}, []);
+const Dashboard = ({ isAuthenticated }) => {
+  if (!isAuthenticated) {
+    return <Redirect to="/login" />;
+  }
   return (
     <Fragment>
       <h1>Test Component</h1>
-      <p>Fed up? Why not Logout?</p>
-      <Link to="/logout">
-        <div className="action-item" data-tip="logout" data-type="success">
-          Here
-        </div>
-      </Link>
+      <p>You are now logged in. Here's your latest results.</p>
     </Fragment>
   );
 };
 
-export default Dashboard;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps)(Dashboard);

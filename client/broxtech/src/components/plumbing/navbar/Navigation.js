@@ -11,6 +11,9 @@ import "react-bulma-components/dist/react-bulma-components.min.css";
 //Brox Components
 import BroxLogo from "./BroxLogo";
 
+//actions
+import { logout } from "../../../actions/auth";
+
 const colors = {
   Default: "",
   primary: "primary",
@@ -25,7 +28,7 @@ const colors = {
   link: "link",
 };
 
-const Navigation = () => {
+const Navigation = ({ logout, isAuthenticated }) => {
   //I'm passing state into here, if they're logged in then show logout
   //if they're not logged in show login or register
   useEffect(() => {}, []);
@@ -55,9 +58,21 @@ const Navigation = () => {
             <Navbar.Item href="#">Second</Navbar.Item>
           </Navbar.Container> */}
           <Navbar.Container position="end">
-            <Link to="/login">
-              <Navbar.Item>Sign In</Navbar.Item>
-            </Link>
+            {isAuthenticated ? (
+              <Fragment>
+                <Navbar.Item onClick={() => logout()}>Logout</Navbar.Item>
+              </Fragment>
+            ) : (
+              <Fragment>
+                {" "}
+                <Link to="/login">
+                  <Navbar.Item>Sign In</Navbar.Item>
+                </Link>
+                <Link to="/register">
+                  <Navbar.Item>Register</Navbar.Item>
+                </Link>
+              </Fragment>
+            )}
           </Navbar.Container>
         </Navbar.Menu>
       </Navbar>
@@ -65,4 +80,8 @@ const Navigation = () => {
   );
 };
 
-export default Navigation;
+const mapStateToProps = (state) => ({
+  isAuthenticated: state.auth.isAuthenticated,
+});
+
+export default connect(mapStateToProps, { logout })(Navigation);
