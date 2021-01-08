@@ -17,6 +17,7 @@ import "react-bulma-components/dist/react-bulma-components.min.css";
 //Component List
 import Alert from "./components/plumbing/layout/Alert";
 import BroxFooter from "./components/plumbing/layout/Footer";
+import ConfirmAccount from "./components/auth/ConfirmAccount";
 import Register from "./components/auth/Register";
 import Login from "./components/auth/Login";
 import Logout from "./components/auth/Logout";
@@ -40,6 +41,7 @@ const App = () => {
                 <Route exact path="/login" component={Login} />
                 <Route exact path="/logout" component={Logout} />
                 <Route exact path="/register" component={Register} />
+                <Route path="/confirm" component={ConfirmAccount} />
                 <Route component={NotFound} />
               </Switch>
             </div>

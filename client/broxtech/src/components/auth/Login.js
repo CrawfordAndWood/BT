@@ -3,25 +3,15 @@ import { Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import PropTypes from "prop-types";
 import { login } from "../../actions/auth";
+
+//Bulma
 import {
   Field,
   Control,
   Label,
   Input,
-  Textarea,
-  Select,
-  Checkbox,
-  Radio,
-  Help,
-  InputFile,
 } from "react-bulma-components/lib/components/form";
-import {
-  Heading,
-  Button,
-  Container,
-  Columns,
-  Section,
-} from "react-bulma-components";
+import { Button, Container, Columns, Section } from "react-bulma-components";
 import "react-bulma-components/dist/react-bulma-components.min.css";
 
 const Login = ({ login, isAuthenticated }) => {
@@ -30,7 +20,7 @@ const Login = ({ login, isAuthenticated }) => {
     password: "",
   });
 
-  const { email, name, password } = formData;
+  const { email, password } = formData;
 
   const onChange = (e) =>
     setFormData({ ...formData, [e.target.name]: e.target.value });

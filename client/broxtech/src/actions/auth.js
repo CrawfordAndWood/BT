@@ -12,42 +12,119 @@ import {
 } from "./types";
 import setAuthToken from "../utils/setAuthToken";
 
-const details = {
-  email: "test@test.com",
-  password: "pass",
+const prefix = "http://127.0.0.1:5000";
+
+const config = {
+  headers: {
+    "Content-Type": "application/json",
+  },
 };
 
-export const login = (form) => async (dispatch) => {
+export const confirmNewAccount = (token) => async (dispatch) => {
+  console.log("conf");
   try {
-    let result =
-      Object.entries(details).toString() === Object.entries(form).toString();
+    const res = await axios.get(`${prefix}/api/confirm/${token}`);
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data,
+    });
+    dispatch(loadUser());
+  } catch (error) {
+    const errors = error.response.data.errors;
 
-    if (result) {
-      dispatch({ type: LOGIN_SUCCESS });
-    } else {
-      dispatch(
-        setAlert("Sorry, the credentials provided are invalid", "danger")
-      );
-      dispatch({ type: LOGIN_FAIL });
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
     }
-  } catch (err) {
-    console.log(err.message);
+    dispatch({
+      type: LOGIN_FAIL,
+    });
+  }
+};
+//Load user
+export const loadUser = () => async (dispatch) => {
+  if (localStorage.token) {
+    setAuthToken(localStorage.token);
+  }
+  console.log("local", localStorage);
+  try {
+    const res = await axios.get(`${prefix}/api/auth`);
+    console.log("user loading", res.data);
+    dispatch({
+      type: USER_LOADED,
+      payload: res.data,
+    });
+  } catch (error) {
+    dispatch({ type: AUTH_ERROR });
   }
 };
 
-export const logout = () => async (dispatch) => {
+// Register User
+export const register = ({ name, email, postcode, password }) => async (
+  dispatch
+) => {
+  const body = JSON.stringify({ name, email, postcode, password });
+
   try {
-    console.log("logging out");
-    dispatch({ type: LOGOUT });
-  } catch (err) {
-    console.log(err.message);
+    const res = await axios.post(`${prefix}/api/auth/register`, body, config);
+    // dispatch({
+    //   type: REGISTER_SUCCESS,
+    //   payload: res.data,
+    // });
+    dispatch(
+      setAlert(
+        "Account Created, a confirmation email has been sent. Please follow the link inside to confirm your account",
+        "success"
+      )
+    );
+  } catch (error) {
+    const errors = error.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
+    dispatch({
+      type: REGISTER_FAIL,
+    });
   }
 };
 
-export const register = () => async (dispatch) => {
+// Login User
+export const login = (credentials) => async (dispatch) => {
   try {
-    console.log("registering");
-  } catch (err) {
-    console.log(err.message);
+    const res = await axios.post(`${prefix}/api/auth`, credentials, config);
+    dispatch({
+      type: LOGIN_SUCCESS,
+      payload: res.data,
+    });
+    dispatch(loadUser());
+  } catch (error) {
+    const errors = error.response.data.errors;
+
+    if (errors) {
+      errors.forEach((error) => dispatch(setAlert(error.msg, "danger")));
+    }
+    dispatch({
+      type: LOGIN_FAIL,
+    });
   }
+};
+
+//Logout
+
+export const logout = (history, activeUserId) => async (dispatch) => {
+  const config = {
+    headers: {
+      "Content-Type": "application/json",
+    },
+  };
+  dispatch({ type: CLEAR_PROFILE });
+  dispatch({ type: LOGOUT });
+  try {
+    const body = JSON.stringify({ activeUserId });
+
+    axios.post(`/api/auth/logout`, body, config);
+  } catch (error) {
+    console.log(error);
+  }
+  history.push("/login");
 };
