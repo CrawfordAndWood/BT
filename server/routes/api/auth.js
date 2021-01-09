@@ -31,6 +31,13 @@ router.get("/", auth, async (req, res) => {
 router.post("/", async (req, res) => {
   try {
     let payload = await authService.login(req.body);
+    if (payload.id === undefined) {
+      console.log("payload is undefined");
+      res.status(500).json({ msg: "Invalid Credentials" });
+    }
+
+    console.log("shold");
+
     jwt.sign(
       payload,
       config.get("jwtSecret"),
