@@ -20,14 +20,9 @@ class AuthService {
 
   async confirmAccount(token) {
     try {
-      //need to match the url with the token in the db
-      //bring up the item, they should have the user's email, id
-      console.log("token is this: ", token);
       let confirmationEmail = await ConfirmationEmail.findOne(token);
-      console.log("confirmaitonEmail", confirmationEmail);
       let email = confirmationEmail.email;
       let user = await User.findOne({ email });
-      console.log("user", user);
       user.verified = true;
 
       //sign in
@@ -38,7 +33,6 @@ class AuthService {
           id: user.id,
         },
       };
-      console.log("got this far!");
       return payload;
     } catch (err) {
       console.log("err srevice", err.message);
@@ -54,7 +48,10 @@ class AuthService {
       };
       let user = await User.findOne({ email });
       if (!user) {
-        console.log(email, userArgs, "no user  found makes no snese");
+        return errorArgs;
+      }
+
+      if (!user.verified) {
         return errorArgs;
       }
 

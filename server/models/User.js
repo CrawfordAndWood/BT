@@ -16,6 +16,9 @@ const UserSchema = new mongoose.Schema({
   verified: {
     type: Boolean,
   },
+  locked: {
+    type: Boolean,
+  },
   role: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "role",
