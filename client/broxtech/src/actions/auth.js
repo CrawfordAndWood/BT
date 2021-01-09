@@ -21,9 +21,10 @@ const config = {
 };
 
 export const confirmNewAccount = (token) => async (dispatch) => {
-  console.log("conf");
   try {
-    const res = await axios.get(`${prefix}/api/confirm/${token}`);
+    let token = JSON.stringify(token);
+    console.log("confirming new", token);
+    const res = await axios.post(`${prefix}/api/confirm`, config, token);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,
@@ -45,10 +46,8 @@ export const loadUser = () => async (dispatch) => {
   if (localStorage.token) {
     setAuthToken(localStorage.token);
   }
-  console.log("local", localStorage);
   try {
     const res = await axios.get(`${prefix}/api/auth`);
-    console.log("user loading", res.data);
     dispatch({
       type: USER_LOADED,
       payload: res.data,
@@ -111,20 +110,14 @@ export const login = (credentials) => async (dispatch) => {
 
 //Logout
 
-export const logout = (history, activeUserId) => async (dispatch) => {
-  const config = {
-    headers: {
-      "Content-Type": "application/json",
-    },
-  };
+export const logout = (activeUserId) => async (dispatch) => {
   dispatch({ type: CLEAR_PROFILE });
   dispatch({ type: LOGOUT });
   try {
     const body = JSON.stringify({ activeUserId });
 
-    axios.post(`/api/auth/logout`, body, config);
+    await axios.post(`/api/auth/logout`, body, config);
   } catch (error) {
     console.log(error);
   }
-  history.push("/login");
 };

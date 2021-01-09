@@ -4,12 +4,13 @@ import { Link, Redirect } from "react-router-dom";
 
 const Dashboard = ({ isAuthenticated }) => {
   if (!isAuthenticated) {
+    console.log("auth?", isAuthenticated);
     return <Redirect to="/login" />;
   }
   return (
     <Fragment>
       <h1>Test Component</h1>
-      <p>You are now logged in. Here's your latest results.</p>
+      <p>You are now logged in. Here's your latest.</p>
     </Fragment>
   );
 };

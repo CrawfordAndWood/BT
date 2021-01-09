@@ -19,6 +19,7 @@ class AuthService {
   constructor() {}
 
   async confirmAccount(token) {
+    console.log("token", token);
     //need to match the url with the token in the db
     //bring up the item, they should have the user's email, id
     let confirmationEmail = await ConfirmationEmail.findOne({ token });
@@ -34,7 +35,7 @@ class AuthService {
         id: user.id,
       },
     };
-
+    console.log("got this far!");
     jwt.sign(
       payload,
       config.get("jwtSecret"),
@@ -62,7 +63,6 @@ class AuthService {
       const isMatch = await bcrypt.compare(password, user.password);
 
       if (!isMatch) {
-        console.log("shit password");
         return errorArgs;
       }
 
@@ -96,6 +96,7 @@ class AuthService {
       userFields.password = await bcrypt.hash(password, salt);
 
       user = new User(userFields);
+      user.verified = false;
       await user.save();
       //prepare templates and send welcome email
       let token = uuid.v4().slice(0, 8);
