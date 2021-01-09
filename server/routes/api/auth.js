@@ -99,11 +99,20 @@ router.post(
 //@route    POST api/auth/confirm/token:
 //@desc     Confirm user's email
 //@access   Private
-router.post("/confirm/:token", async (req, res) => {
+router.post("/confirm/", async (req, res) => {
   try {
-    let result = await authService.confirmEmail(req.params.token);
-    return res.status(result.status).json(result);
+    let payload = await authService.confirmAccount(req.body);
+    jwt.sign(
+      payload,
+      config.get("jwtSecret"),
+      { expiresIn: 360000 },
+      (err, token) => {
+        if (err) throw err;
+        res.json({ token });
+      }
+    );
   } catch (err) {
+    console.log("err", err.message);
     return res.status(500).send("Server error");
   }
 });

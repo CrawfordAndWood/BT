@@ -20,11 +20,11 @@ const config = {
   },
 };
 
-export const confirmNewAccount = (token) => async (dispatch) => {
+export const confirmNewAccount = (url) => async (dispatch) => {
   try {
-    let token = JSON.stringify(token);
-    console.log("confirming new", token);
-    const res = await axios.post(`${prefix}/api/confirm`, config, token);
+    let token = url.substring(url.lastIndexOf("/") + 1);
+    token = JSON.stringify({ token });
+    const res = await axios.post(`${prefix}/api/auth/confirm`, token, config);
     dispatch({
       type: LOGIN_SUCCESS,
       payload: res.data,

@@ -5,7 +5,7 @@ const ConfirmationEmailSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  createdAt: { type: Date, default: Date.now, expires: "1m" },
+  // createdAt: { type: Date, default: Date.now },
   token: {
     type: String,
     required: true,
